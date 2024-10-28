@@ -60,9 +60,9 @@ public class ThreadLocalLogTrace implements LogTrace {
         TraceId traceId = traceIdHolder.get();
 
         if (traceId.isFirstLevel()) {
-            traceIdHolder.remove(); // destory
+            traceIdHolder.remove(); // 쓰레드에 존재하는 정보를 삭제한다 remove() 를 반드시 해줘야 다른 사용자가 Thread 접근 시 이전 사용자의 데이터와 충돌하지 않는다.
         } else {
-            traceIdHolder.set(traceId.createNextId());
+            traceIdHolder.set(traceId.createPreviousId());
         }
     }
 
